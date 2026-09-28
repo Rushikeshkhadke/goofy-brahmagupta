@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Kalpana Family Shopping Mall | Luxury Wedding & Family Fashion Landmark</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+  <style>
+    :root {
+      --bg-base: #1a0505;
+      --bg-surface: #ffffff;
+      --neon-cyan: #c9a84c;
+      --neon-blue: #c9a84c;
+      --neon-indigo: #800000;
+      --text-main: #0b132b;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --border-subtle: rgba(201, 168, 76, 0.4);
+      --border-neon: rgba(201, 168, 76, 0.45);
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-caps: 'Cinzel', serif;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html { background-color: #1a0505; scroll-behavior: smooth; }
+    body { background-color: transparent !important; color: var(--text-main); font-family: var(--font-sans); overflow-x: hidden; }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; transition: color 0.2s var(--ease), border-color 0.2s var(--ease), box-shadow 0.2s var(--ease); }
+
+    .top-utility-bar {
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 10px 5vw; display: flex; justify-content: space-between; align-items: center;
+      font-size: 11px; letter-spacing: 1px; color: var(--text-secondary); position: relative; z-index: 501;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); transition: transform 0.3s var(--ease);
+    }
+    .top-launch-indicator { display: inline-flex; align-items: center; gap: 8px; color: var(--neon-blue); font-weight: 700; }
+    .top-launch-tag { font-family: var(--font-mono); background: rgba(2, 132, 199, 0.08); border: 1px solid var(--border-neon); color: var(--neon-blue); padding: 3px 8px; border-radius: 4px; font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px; }
+    .top-brand-center { font-family: var(--font-caps); letter-spacing: 2px; font-size: 12px; color: var(--text-main); font-weight: 700; text-transform: uppercase; }
+    .top-utility-links { display: flex; align-items: center; gap: 16px; }
+
+    header.main-navbar {
+      position: sticky; top: 0; z-index: 500;
+      background: rgba(255, 255, 255, 0.48);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+    }
+    .navbar-inner { max-width: 1400px; margin: 0 auto; padding: 0 5vw; height: 82px; display: flex; align-items: center; justify-content: space-between; }
+    .brand-group { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+    .brand-crest-frame { width: 48px; height: 48px; background: #000000; border: 1.5px solid var(--neon-blue); border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .brand-crest-frame img { width: 100%; height: 100%; object-fit: cover; }
+    .brand-title-wrap h1 { font-family: var(--font-caps); font-size: 18px; font-weight: 700; letter-spacing: 2px; color: var(--text-main); line-height: 1.1; text-transform: uppercase; }
+    .brand-title-wrap span { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--neon-blue); margin-top: 3px; display: block; font-weight: 700; }
+
+    .nav-sticky-countdown { display: inline-flex; align-items: center; background: #ffffff; border: 1px solid var(--border-neon); border-radius: 999px; padding: 6px 18px; opacity: 0; transform: translateY(-6px); transition: all 0.3s var(--ease); }
+    .nav-sticky-countdown.is-active { opacity: 1; transform: translateY(0); }
+    .nav-countdown-inner { display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; }
+    .nav-countdown-tag { font-family: var(--font-caps); font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: var(--neon-blue); padding-right: 10px; border-right: 1px solid var(--border-neon); }
+    .nav-countdown-line { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 13px; color: var(--text-main); }
+    .nav-countdown-line strong { color: var(--neon-blue); font-weight: 700; }
+
+    .nav-links-row { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-link-btn { font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); padding: 6px 0; }
+    .nav-link-btn:hover, .nav-link-btn.active { color: var(--neon-blue); }
+
+    .btn-neon-action { display: inline-flex; align-items: center; justify-content: center; padding: 10px 22px; border-radius: 999px; background: linear-gradient(135deg, #0284c7 0%, #6366f1 100%); color: #ffffff; font-family: var(--font-caps); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25); }
+
+    .scroll-chassis { position: relative; z-index: 10; width: 100%; }
+    .section-stage { min-height: 100vh; width: 100%; display: flex; align-items: center; justify-content: center; padding: 60px 5vw; pointer-events: none; }
+    #hero-stage { min-height: auto; padding: 24px 2vw 40px 2vw; }
+    .section-stage.interactive { pointer-events: auto; }
+
+    .hero-luminous-deck {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(3px) saturate(140%);
+      -webkit-backdrop-filter: blur(3px) saturate(140%);
+      border: 1.5px solid rgba(255, 255, 255, 0.5);
+      outline: 1px solid rgba(201, 168, 76, 0.35);
+      border-radius: 24px;
+      padding: 24px 24px 20px 24px;
+      text-align: center;
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+      box-shadow: 0 12px 36px 0 rgba(0, 0, 0, 0.12);
+    }
+    .hero-crest-badge { width: 72px; height: 72px; background: #000000; border: 2px solid var(--neon-blue); border-radius: 50%; margin: 0 auto 12px auto; overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); }
+    .hero-crest-badge img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-kicker-neon { display: inline-block; font-family: var(--font-caps); font-size: 11.5px; letter-spacing: 3px; text-transform: uppercase; color: #800000; font-weight: 800; margin-bottom: 10px; padding: 4px 18px; border-radius: 999px; background: rgba(255, 255, 255, 0.75); border: 1.5px solid rgba(128, 0, 0, 0.35); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); }
+    .hero-title-h1 { font-family: var(--font-display); font-size: clamp(30px, 4.2vw, 52px); font-weight: 800; color: #0b132b; line-height: 1.15; margin-bottom: 12px; text-shadow: 0 2px 16px rgba(255, 255, 255, 0.95), 0 0 6px #fff; }
+    .hero-subline-text { max-width: 600px; margin: 0 auto 16px auto; line-height: 1.6; text-align: center; font-size: 14.5px; color: #0b132b; font-weight: 700; text-shadow: 0 1px 14px rgba(255, 255, 255, 0.95), 0 0 5px #fff; }
+
+    /* Countdown Timer Box & Text Glow */
+    .hero-countdown-grid { display: flex; justify-content: center; align-items: flex-start; gap: 24px; position: relative; margin: 20px auto 24px auto; width: 100%; }
+    .hero-countdown-grid::before { display: none !important; }
+    .countdown-card-box {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+      min-width: 96px; padding: 12px 20px;
+      background: rgba(255, 255, 255, 0.10);
+      backdrop-filter: blur(3px) saturate(140%);
+      -webkit-backdrop-filter: blur(3px) saturate(140%);
+      border: 1.5px solid #c9a84c;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    .countdown-card-box:hover {
+      transform: translateY(-4px) scale(1.04);
+      border-color: #800000;
+      background: rgba(255, 255, 255, 0.25);
+    }
+    @keyframes boxGlowPulse {
+      0%, 100% { box-shadow: 0 0 18px rgba(201, 168, 76, 0.45), 0 0 36px rgba(128, 0, 0, 0.18), inset 0 0 15px rgba(255, 255, 255, 0.8); }
+      50% { box-shadow: 0 0 30px rgba(201, 168, 76, 0.8), 0 0 55px rgba(128, 0, 0, 0.32), inset 0 0 20px rgba(255, 255, 255, 0.95); }
+    }
+    .countdown-card-num {
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: clamp(34px, 4.5vw, 56px);
+      font-weight: 800;
+      line-height: 1;
+      color: #800000;
+      display: block;
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.9), 0 0 24px rgba(201, 168, 76, 0.6);
+    }
+    .countdown-card-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 9.5px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #800000;
+      font-weight: 800;
+      display: block;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.9), 0 0 12px rgba(201, 168, 76, 0.6);
+    }
+
+    .scroll-down-prompt { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 10px; font-family: var(--font-caps); font-size: 10.5px; letter-spacing: 2.5px; color: var(--neon-blue); text-transform: uppercase; font-weight: 700; text-shadow: 0 1px 8px rgba(255,255,255,0.9); }
+    .scroll-down-line { width: 1.5px; height: 24px; background: linear-gradient(to bottom, var(--neon-cyan), transparent); animation: pulseLine 2s infinite ease-in-out; }
+    @keyframes pulseLine { 0%, 100% { opacity: 0.3; transform: scaleY(0.8); } 50% { opacity: 1; transform: scaleY(1); } }
+
+    /* HORIZONTAL DEPARTMENT NAVIGATION BAR */
+    .horizontal-dept-section { padding: 40px 5vw; text-align: center; }
+    .horizontal-dept-bar { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; max-width: 1300px; margin: 24px auto 0 auto; }
+    .horizontal-dept-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-caps); font-size: 11.5px; font-weight: 800;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 11px 22px; border-radius: 999px;
+      background: rgba(255, 255, 255, 0.32);
+      backdrop-filter: blur(20px) saturate(190%);
+      -webkit-backdrop-filter: blur(20px) saturate(190%);
+      border: 1.5px solid rgba(255, 255, 255, 0.7);
+      outline: 1.5px solid rgba(201, 168, 76, 0.55);
+      color: #0b132b; text-decoration: none;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.85);
+      transition: all 0.25s var(--ease); white-space: nowrap;
+      text-shadow: 0 1px 6px rgba(255, 255, 255, 0.9);
+    }
+    .horizontal-dept-pill.active {
+      background: #800000 !important;
+      color: #ffffff !important;
+      border-color: #c9a84c !important;
+      box-shadow: 0 6px 20px rgba(128, 0, 0, 0.35) !important;
+      text-shadow: none !important;
+    }
+
+    /* Department Showcase Preview Card (Medium Balanced Size) */
+    .dept-preview-container {
+      margin-top: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+    .dept-preview-card {
+      max-width: 480px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(3px) saturate(140%);
+      -webkit-backdrop-filter: blur(3px) saturate(140%);
+      border: 1.5px solid rgba(255, 255, 255, 0.5);
+      outline: 1px solid rgba(201, 168, 76, 0.35);
+      border-radius: 20px;
+      padding: 16px;
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .hero-luminous-deck, .visit-luminous-card {
+      position: relative;
+    }
+    .glass-saree-float-accent-1 {
+      position: absolute;
+      top: -24px;
+      right: -24px;
+      width: 85px;
+      height: 85px;
+      background: url('floating_cover_saree.png') center/contain no-repeat;
+      z-index: 25;
+      pointer-events: none;
+      filter: drop-shadow(0 6px 14px rgba(0,0,0,0.3));
+      animation: floatSareeWave 6s ease-in-out infinite alternate;
+    }
+    .glass-saree-float-accent-2 {
+      position: absolute;
+      bottom: -20px;
+      left: -20px;
+      width: 75px;
+      height: 75px;
+      background: url('floating_cover_saree.png') center/contain no-repeat;
+      transform: rotate(-30deg);
+      z-index: 25;
+      pointer-events: none;
+      filter: drop-shadow(0 6px 14px rgba(0,0,0,0.25));
+      animation: floatSareeWave 8s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes floatSareeWave {
+      0% { transform: translateY(0px) rotate(0deg) scale(1); }
+      50% { transform: translateY(-8px) rotate(4deg) scale(1.04); }
+      100% { transform: translateY(4px) rotate(-3deg) scale(0.98); }
+    }
+    .dept-preview-media {
+      width: 140px;
+      height: 210px;
+      aspect-ratio: 9 / 14;
+      border-radius: 14px;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+      border: 1.5px solid rgba(201, 168, 76, 0.5);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .dept-preview-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      transition: opacity 0.25s ease, transform 0.35s ease;
+    }
+    .dept-preview-badge {
+      position: absolute;
+      bottom: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(128, 0, 0, 0.88);
+      color: #ffffff;
+      font-family: var(--font-mono);
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      white-space: nowrap;
+      border: 1px solid rgba(201, 168, 76, 0.6);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .dept-preview-info {
+      text-align: left;
+    }
+    .dept-preview-info h3 {
+      font-family: var(--font-display);
+      font-size: 19px;
+      font-weight: 800;
+      color: #0b132b;
+      margin-bottom: 6px;
+      text-shadow: 0 1px 8px rgba(255, 255, 255, 0.95), 0 0 3px #fff;
+    }
+    .dept-preview-info p {
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: #0b132b;
+      font-weight: 700;
+      text-shadow: 0 1px 6px rgba(255, 255, 255, 0.95);
+    }
+
+    /* CONCIERGE & VISIT DETAILS */
+    .section-header-wrap { text-align: center; max-width: 700px; margin: 0 auto 50px; }
+    .section-header-kicker { font-size: 12px; letter-spacing: 3.5px; text-transform: uppercase; color: #800000; font-weight: 800; margin-bottom: 10px; text-shadow: 0 1px 12px rgba(255, 255, 255, 0.95); }
+    .section-header-h2 { font-family: var(--font-display); font-size: clamp(32px, 4.2vw, 48px); font-weight: 800; color: #0b132b; line-height: 1.2; text-shadow: 0 2px 16px rgba(255, 255, 255, 0.95), 0 0 3px #fff; }
+
+    .visit-deck-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; max-width: 1300px; margin: 0 auto; }
+    .visit-luminous-card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(3px) saturate(140%);
+      -webkit-backdrop-filter: blur(3px) saturate(140%);
+      border: 1.5px solid rgba(255, 255, 255, 0.5);
+      outline: 1px solid rgba(201, 168, 76, 0.35);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.1);
+    }
+    .card-header-flex { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border-subtle); }
+    .card-header-flex h3 { font-family: var(--font-display); font-size: 24px; font-weight: 800; color: #0b132b; margin-bottom: 4px; text-shadow: 0 1px 8px rgba(255, 255, 255, 0.9); }
+    .subtitle-neon { font-size: 11px; letter-spacing: 1.5px; color: #800000; font-weight: 800; text-transform: uppercase; display: block; text-shadow: 0 1px 6px rgba(255, 255, 255, 0.9); }
+    .neon-status-badge { font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; background: rgba(2, 132, 199, 0.08); color: var(--neon-blue); border: 1px solid var(--border-neon); }
+
+    .card-info-item {
+      background: rgba(255, 255, 255, 0.10);
+      backdrop-filter: blur(3px) saturate(140%);
+      -webkit-backdrop-filter: blur(3px) saturate(140%);
+      border-radius: 14px;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      outline: 1px solid rgba(201, 168, 76, 0.3);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .card-info-label { font-family: var(--font-caps); font-size: 10px; font-weight: 800; letter-spacing: 2px; color: #800000; text-transform: uppercase; margin-bottom: 6px; text-shadow: 0 1px 6px rgba(255, 255, 255, 0.9); }
+    .card-info-text { font-size: 14px; line-height: 1.6; color: #0b132b; font-weight: 700; text-shadow: 0 1px 6px rgba(255, 255, 255, 0.9); }
+    .card-info-text a { color: var(--neon-blue); font-weight: 700; }
+
+    /* Saree Veil Curtain Simulation */
+    .saree-veil-curtain {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999;
+      pointer-events: auto;
+      overflow: hidden;
+      cursor: pointer;
+      background: transparent !important;
+      transition: opacity 0.3s ease;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    #saree-cloth-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 10; }
+    .saree-unveil-prompt { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 25; pointer-events: none; }
+    .saree-prompt-pill { display: inline-flex; align-items: center; gap: 10px; background: #ffffff; border: 1px solid var(--border-neon); padding: 11px 26px; border-radius: 999px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); }
+    .saree-prompt-pill .prompt-text { font-family: var(--font-caps); font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--neon-blue); text-transform: uppercase; }
+
+    /* Native Video Background */
+    .hero-bg-video-element {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      z-index: -3 !important;
+      pointer-events: none !important;
+      transform: translateZ(0);
+      will-change: transform, opacity;
+      transition: opacity 0.35s ease;
+    }
+    .hero-bg-video-element.video-looping-fade {
+      opacity: 0.88;
+    }
+  
+    /* Mobile & Tablet Responsive Optimizations */
+    @media (max-width: 768px) {
+      * {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body, main {
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .hero-bg-video-element {
+        object-fit: cover !important;
+        object-position: 65% center !important;
+        transform: translate3d(0,0,0) !important;
+        -webkit-backface-visibility: hidden !important;
+        backface-visibility: hidden !important;
+      }
+
+      .top-utility-bar {
+        display: none !important;
+      }
+
+      .main-navbar {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 56px !important;
+        z-index: 500 !important;
+        background: rgba(255, 255, 255, 0.96) !important;
+        border-bottom: 1.5px solid rgba(201, 168, 76, 0.4) !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06) !important;
+        transform: translate3d(0,0,0) !important;
+      }
+
+      .navbar-inner {
+        padding: 0 16px !important;
+        height: 56px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+      }
+
+      .brand-title-wrap h1 {
+        font-size: 15px !important;
+        line-height: 1.1 !important;
+        color: #0b132b !important;
+        font-weight: 800 !important;
+      }
+
+      .brand-title-wrap span {
+        font-size: 9px !important;
+        color: #800000 !important;
+        font-weight: 700 !important;
+      }
+
+      .brand-crest-frame {
+        width: 36px !important;
+        height: 36px !important;
+        background: #ffffff !important;
+        border: 1.5px solid #c9a84c !important;
+      }
+
+      .nav-sticky-countdown, .nav-links-row {
+        display: none !important;
+      }
+
+      .btn-neon-action {
+        padding: 7px 14px !important;
+        font-size: 9.5px !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.5px !important;
+        background: #800000 !important;
+        color: #ffffff !important;
+        border-radius: 999px !important;
+        box-shadow: 0 3px 10px rgba(128, 0, 0, 0.25) !important;
+      }
+
+      .section-stage {
+        min-height: auto !important;
+        padding: 68px 12px 32px 12px !important;
+        pointer-events: auto !important;
+      }
+
+      .hero-luminous-deck {
+        padding: 0 !important;
+        max-width: 480px !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+        background: transparent !important;
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+      }
+
+      .hero-crest-badge {
+        width: 64px !important;
+        height: 64px !important;
+        border-radius: 50% !important;
+        background: #ffffff !important;
+        border: 2px solid #c9a84c !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+        margin: 0 auto 10px auto !important;
+      }
+
+      .hero-crest-badge img {
+        width: 52px !important;
+        height: 52px !important;
+        border-radius: 50% !important;
+      }
+
+      .hero-kicker-neon {
+        font-size: 9.5px !important;
+        font-weight: 800 !important;
+        letter-spacing: 1.5px !important;
+        color: #800000 !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        border: 1.5px solid rgba(128, 0, 0, 0.35) !important;
+        padding: 5px 16px !important;
+        border-radius: 999px !important;
+        margin-bottom: 10px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+      }
+
+      .hero-title-h1 {
+        font-family: var(--font-display) !important;
+        font-size: 24px !important;
+        font-weight: 800 !important;
+        color: #0b132b !important;
+        line-height: 1.2 !important;
+        margin-bottom: 8px !important;
+        text-shadow: 0 2px 8px rgba(255, 255, 255, 0.95) !important;
+      }
+
+      .hero-subline-text {
+        font-size: 12px !important;
+        line-height: 1.45 !important;
+        color: #1e293b !important;
+        font-weight: 600 !important;
+        max-width: 340px !important;
+        margin-bottom: 16px !important;
+        text-shadow: 0 1px 4px rgba(255, 255, 255, 0.95) !important;
+      }
+
+      .hero-countdown-grid {
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 8px !important;
+        width: 100% !important;
+        max-width: 360px !important;
+        margin: 0 auto 16px auto !important;
+      }
+
+      .hero-countdown-grid::before {
+        display: none !important;
+      }
+
+      .countdown-card-box {
+        background: rgba(255, 255, 255, 0.12) !important;
+        backdrop-filter: blur(2px) saturate(160%) !important;
+        -webkit-backdrop-filter: blur(2px) saturate(160%) !important;
+        border: 2px solid #c9a84c !important;
+        border-radius: 12px !important;
+        padding: 8px 4px !important;
+        text-align: center !important;
+        box-shadow: 0 0 14px rgba(201, 168, 76, 0.45), 0 0 24px rgba(128, 0, 0, 0.15) !important;
+        min-width: auto !important;
+      }
+
+      .countdown-card-num {
+        font-family: 'Cinzel', serif !important;
+        font-size: 22px !important;
+        font-weight: 800 !important;
+        color: #800000 !important;
+        line-height: 1 !important;
+        display: block !important;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.95), 0 0 18px rgba(201, 168, 76, 0.6) !important;
+      }
+
+      .countdown-card-label {
+        font-size: 8px !important;
+        font-weight: 800 !important;
+        letter-spacing: 1px !important;
+        color: #800000 !important;
+        text-transform: uppercase !important;
+        margin-top: 4px !important;
+        display: block !important;
+        text-shadow: 0 0 6px rgba(255, 255, 255, 0.95) !important;
+      }
+
+      .scroll-down-prompt {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        font-size: 9.5px !important;
+        font-weight: 800 !important;
+        letter-spacing: 1.5px !important;
+        color: #800000 !important;
+        text-transform: uppercase !important;
+        background: rgba(255, 255, 255, 0.70) !important;
+        border: 1px solid rgba(201, 168, 76, 0.4) !important;
+        border-radius: 999px !important;
+        padding: 5px 14px !important;
+        margin-bottom: 16px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+      }
+
+      .scroll-down-line {
+        height: 10px !important;
+        width: 1.5px !important;
+        background: #800000 !important;
+      }
+
+      #shopping-departments {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        padding: 24px 16px 36px 16px !important;
+        text-align: center !important;
+      }
+
+      .section-header-wrap {
+        margin-bottom: 14px !important;
+      }
+
+      .section-header-kicker {
+        font-size: 10px !important;
+        font-weight: 800 !important;
+        letter-spacing: 1.5px !important;
+        color: #800000 !important;
+        margin-bottom: 4px !important;
+        text-shadow: 0 1px 6px rgba(255,255,255,0.95) !important;
+      }
+
+      .section-header-h2 {
+        font-size: 16px !important;
+        font-weight: 800 !important;
+        color: #0b132b !important;
+        line-height: 1.3 !important;
+        text-shadow: 0 1px 10px rgba(255,255,255,0.95) !important;
+      }
+
+      .horizontal-dept-bar {
+        display: flex !important;
+        overflow-x: auto !important;
+        flex-wrap: nowrap !important;
+        gap: 10px !important;
+        width: 100% !important;
+        padding: 10px 6px 16px 6px !important;
+        margin-top: 8px !important;
+        scroll-snap-type: x mandatory !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+      }
+      .horizontal-dept-bar::-webkit-scrollbar {
+        display: none !important;
+      }
+
+      .horizontal-dept-pill {
+        flex: 0 0 auto !important;
+        scroll-snap-align: center !important;
+        padding: 10px 18px !important;
+        font-size: 11px !important;
+        font-weight: 800 !important;
+        border-radius: 999px !important;
+        background: rgba(255, 255, 255, 0.45) !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+        border: 1.5px solid rgba(201, 168, 76, 0.6) !important;
+        color: #0b132b !important;
+      }
+      .horizontal-dept-pill.active {
+        background: #800000 !important;
+        color: #ffffff !important;
+        border-color: #c9a84c !important;
+      }
+
+      .dept-preview-container {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        width: 100% !important;
+        margin: 16px auto 0 auto !important;
+      }
+
+      .dept-preview-card {
+        max-width: 380px !important;
+        width: 92% !important;
+        margin: 0 auto !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        padding: 20px 16px !important;
+        border-radius: 20px !important;
+        background: rgba(255, 255, 255, 0.12) !important;
+        backdrop-filter: blur(10px) saturate(160%) !important;
+        -webkit-backdrop-filter: blur(10px) saturate(160%) !important;
+        border: 1.5px solid rgba(201, 168, 76, 0.6) !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+      }
+      .dept-preview-media {
+        width: 170px !important;
+        height: 250px !important;
+        max-width: 100% !important;
+        margin: 0 auto 12px auto !important;
+        aspect-ratio: 9 / 14 !important;
+        border-radius: 16px !important;
+        overflow: hidden !important;
+        border: 2px solid rgba(201, 168, 76, 0.8) !important;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2) !important;
+      }
+      .dept-preview-media img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center top !important;
+      }
+      .dept-preview-info {
+        text-align: center !important;
+        width: 100% !important;
+      }
+      .dept-preview-info h3 {
+        font-family: 'Cinzel', serif !important;
+        font-size: 17px !important;
+        font-weight: 800 !important;
+        color: #800000 !important;
+        margin-bottom: 6px !important;
+      }
+      .dept-preview-info p {
+        font-size: 12px !important;
+        line-height: 1.5 !important;
+        color: #0b132b !important;
+        font-weight: 700 !important;
+      }
+
+      .horizontal-dept-pill {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 10px 6px !important;
+        font-size: 10.5px !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.5px !important;
+        color: #0b132b !important;
+        background: rgba(255, 255, 255, 0.22) !important;
+        backdrop-filter: blur(2px) saturate(160%) !important;
+        -webkit-backdrop-filter: blur(2px) saturate(160%) !important;
+        border: 1.5px solid rgba(201, 168, 76, 0.6) !important;
+        border-radius: 999px !important;
+        text-decoration: none !important;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08) !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+        text-shadow: 0 1px 6px rgba(255, 255, 255, 0.95) !important;
+      }
+
+      /* Concierge & Location Section Mobile Alignment */
+      #concierge-visit {
+        padding: 40px 12px 60px 12px !important;
+        min-height: auto !important;
+      }
+
+      .visit-deck-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+        width: 100% !important;
+      }
+
+      .visit-luminous-card {
+        padding: 20px 14px !important;
+        border-radius: 18px !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        backdrop-filter: blur(2px) saturate(140%) !important;
+        -webkit-backdrop-filter: blur(2px) saturate(140%) !important;
+        border: 1.5px solid rgba(255, 255, 255, 0.5) !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
+      }
+
+      .card-header-flex {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 6px !important;
+        margin-bottom: 14px !important;
+        padding-bottom: 10px !important;
+        border-bottom: 1.5px solid rgba(201, 168, 76, 0.3) !important;
+      }
+
+      .card-header-flex h3 {
+        font-size: 18px !important;
+        font-weight: 800 !important;
+        color: #0b132b !important;
+        margin-bottom: 2px !important;
+        text-shadow: 0 1px 6px rgba(255,255,255,0.9) !important;
+      }
+
+      .subtitle-neon {
+        font-size: 11px !important;
+        color: #800000 !important;
+        font-weight: 800 !important;
+        display: block !important;
+        text-shadow: 0 1px 4px rgba(255,255,255,0.9) !important;
+      }
+
+      .neon-status-badge {
+        font-size: 9px !important;
+        padding: 3px 10px !important;
+        border-radius: 999px !important;
+        background: rgba(128, 0, 0, 0.08) !important;
+        border: 1.5px solid #800000 !important;
+        color: #800000 !important;
+        font-weight: 800 !important;
+      }
+
+      .card-info-item {
+        padding: 10px 12px !important;
+        margin-bottom: 8px !important;
+        border-radius: 12px !important;
+        background: rgba(255, 255, 255, 0.10) !important;
+        backdrop-filter: blur(2px) saturate(140%) !important;
+        -webkit-backdrop-filter: blur(2px) saturate(140%) !important;
+        border: 1px solid rgba(201, 168, 76, 0.35) !important;
+      }
+
+      .card-info-label {
+        font-size: 9px !important;
+        letter-spacing: 1px !important;
+        color: #800000 !important;
+        font-weight: 800 !important;
+        margin-bottom: 2px !important;
+      }
+
+      .card-info-text {
+        font-size: 12px !important;
+        line-height: 1.45 !important;
+        color: #1e293b !important;
+        font-weight: 600 !important;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Native Animated Saree Dual Video Background (Instant Poster & Crossfade Loop) -->
+  <div id="hero-bg-video-wrap" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-3;pointer-events:none;overflow:hidden;background:url('video_frame_final.jpg') center center / cover no-repeat;">
+    <video id="hero-bg-video-1" autoplay muted playsinline poster="video_frame_final.jpg" preload="auto" style="position:absolute;top:50%;left:50%;width:100%;height:100%;object-fit:cover;transform:translate(-50%,-50%) scale(1.15);opacity:1;transition:opacity 0.8s ease;"></video>
+    <video id="hero-bg-video-2" muted playsinline poster="video_frame_final.jpg" preload="auto" style="position:absolute;top:50%;left:50%;width:100%;height:100%;object-fit:cover;transform:translate(-50%,-50%) scale(1.15);opacity:0;transition:opacity 0.8s ease;"></video>
+  </div>
+
+  <div id="readability-overlay" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:transparent;z-index:-1;pointer-events:none;"></div>
+
+  <!-- Fullscreen Saree Veil Curtain -->
+  <div id="saree-veil-curtain" class="saree-veil-curtain" title="Scroll or click to unveil">
+    <canvas id="saree-cloth-canvas"></canvas>
+    <div class="saree-unveil-prompt" id="saree-unveil-prompt">
+      <div class="saree-prompt-pill">
+        <span class="prompt-text">SCROLL TO UNVEIL</span>
+        <span class="prompt-arrow">↓</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-utility-bar">
+    <div class="top-launch-indicator">
+      <span class="top-launch-tag">COMING SOON</span>
+      <span>Grand Opening : 11 October 2026</span>
+    </div>
+    <div class="top-brand-center">
+      Kalpana Family Shopping Mall
+    </div>
+    <div class="top-utility-links">
+      <a href="tel:+918180818080">📞 +91 81808 18080</a>
+      <span>|</span>
+      <a href="https://www.instagram.com/kalpanafamilymall?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer">@kalpanafamilymall</a>
+    </div>
+  </div>
+
+  <!-- Main Navigation -->
+  <header class="main-navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="#hero-stage" class="brand-group">
+        <div class="brand-crest-frame">
+          <img src="logo.jpg" alt="Kalpana Peacock Emblem">
+        </div>
+        <div class="brand-title-wrap">
+          <h1>Kalpana Mall</h1>
+          <span>Family Shopping Mall</span>
+        </div>
+      </a>
+
+      <div class="nav-sticky-countdown" id="nav-sticky-countdown">
+        <div class="nav-countdown-inner">
+          <span class="nav-countdown-tag">INAUGURATION: 11 OCT</span>
+          <div class="nav-countdown-line">
+            <strong id="nav-days">00</strong>d
+            <span class="nav-time-sep">:</span>
+            <strong id="nav-hours">00</strong>h
+            <span class="nav-time-sep">:</span>
+            <strong id="nav-minutes">00</strong>m
+            <span class="nav-time-sep">:</span>
+            <strong id="nav-seconds">00</strong>s
+          </div>
+        </div>
+      </div>
+
+      <ul class="nav-links-row">
+        <li><a href="#hero-stage" class="nav-link-btn active">Home</a></li>
+        <li><a href="#concierge-visit" class="nav-link-btn">Showroom & Visit</a></li>
+      </ul>
+
+      <a href="#concierge-visit" class="btn-neon-action">
+        <span>Plan Your Visit →</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="scroll-chassis">
+
+    <!-- HERO SECTION -->
+    <section class="section-stage interactive" id="hero-stage">
+      <div class="hero-luminous-deck">
+        <div class="glass-saree-float-accent-1"></div>
+        <div class="glass-saree-float-accent-2"></div>
+        <div class="hero-crest-badge">
+          <img src="logo.jpg" alt="Kalpana Crest">
+        </div>
+        <div class="hero-kicker-neon">GRAND OPENING • 11 OCTOBER 2026</div>
+        <h1 class="hero-title-h1">Kalpana Family Shopping Mall</h1>
+        <p class="hero-subline-text">
+          Central India’s premier 4-storey destination for bridal couture, authentic Paithani & Banarasi textiles, groom ensembles, and celebration wear.
+        </p>
+
+        <!-- Neon Countdown Timer -->
+        <div class="hero-countdown-grid">
+          <div class="countdown-card-box">
+            <span class="countdown-card-num" id="countdown-days">00</span>
+            <span class="countdown-card-label">Days</span>
+          </div>
+          <div class="countdown-card-box">
+            <span class="countdown-card-num" id="countdown-hours">00</span>
+            <span class="countdown-card-label">Hours</span>
+          </div>
+          <div class="countdown-card-box">
+            <span class="countdown-card-num" id="countdown-minutes">00</span>
+            <span class="countdown-card-label">Minutes</span>
+          </div>
+          <div class="countdown-card-box">
+            <span class="countdown-card-num" id="countdown-seconds">00</span>
+            <span class="countdown-card-label">Seconds</span>
+          </div>
+        </div>
+
+        <div class="scroll-down-prompt">
+          <div class="scroll-down-line"></div>
+          <span>Scroll to Explore</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- STANDALONE SHOPPING DEPARTMENTS SECTION -->
+    <section class="horizontal-dept-section interactive" id="shopping-departments" style="padding: 40px 5vw 30px 5vw;">
+      <div class="section-header-wrap" style="margin-bottom: 20px;">
+        <div class="section-header-kicker" style="color: #800000; font-weight: 800; margin-bottom: 4px;">EXPLORE SHOPPING DEPARTMENTS</div>
+        <h2 class="section-header-h2" style="font-size: clamp(24px, 3vw, 38px);">Hover or Tap to Preview Atelier Collections</h2>
+      </div>
+
+      <div class="horizontal-dept-bar">
+        <button class="horizontal-dept-pill active" data-dept="sarees">🥻 Sarees</button>
+        <button class="horizontal-dept-pill" data-dept="mens">👔 Men's Wear</button>
+        <button class="horizontal-dept-pill" data-dept="womens">👗 Women's Wear</button>
+        <button class="horizontal-dept-pill" data-dept="kids">👑 Kids Wear</button>
+        <button class="horizontal-dept-pill" data-dept="handloom">🧵 Handloom Silk</button>
+        <button class="horizontal-dept-pill" data-dept="suiting">🎩 Shirting & Suiting</button>
+        <button class="horizontal-dept-pill" data-dept="accessories">💎 Accessories</button>
+        <button class="horizontal-dept-pill" data-dept="ethnic">🪔 Ethnic Wear</button>
+      </div>
+
+      <!-- Department Showcase Preview Card -->
+      <div class="dept-preview-container">
+        <div class="dept-preview-card" id="dept-preview-card">
+          <div class="glass-saree-float-accent-1"></div>
+          <div class="dept-preview-media">
+            <img id="dept-preview-img" src="cat_sarees.jpg" alt="Department Preview">
+            <div class="dept-preview-badge" id="dept-preview-badge">Bridal Pavilion</div>
+          </div>
+          <div class="dept-preview-info">
+            <h3 id="dept-preview-title">Bridal & Paithani Sarees</h3>
+            <p id="dept-preview-desc">Authentic Handloom Paithani, Kanjivaram Silk, Banarasi Zari & Designer Wedding Sarees.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONCIERGE & VISIT DETAILS -->
+    <section class="section-stage interactive" id="concierge-visit">
+      <div style="width: 100%;">
+        <div class="section-header-wrap">
+          <div class="section-header-kicker">PLAN YOUR VISIT</div>
+          <h2 class="section-header-h2">Locations & Atelier Access</h2>
+        </div>
+
+        <div class="visit-deck-grid">
+          <!-- Showroom 1 -->
+          <div class="visit-luminous-card">
+            <div class="card-header-flex">
+              <div>
+                <h3>Kalpana Designer Sarees</h3>
+                <span class="subtitle-neon">Chhatrapati Sambhajinagar (Aurangabad)</span>
+              </div>
+              <span class="neon-status-badge active">Now Open</span>
+            </div>
+
+            <div class="card-info-item">
+              <div class="card-info-label">Address</div>
+              <div class="card-info-text">
+                Beside Seven Hill Flyover, Gajanan Maharaj Mandir Road, Chhatrapati Sambhajinagar, Maharashtra 431001
+              </div>
+            </div>
+
+            <div class="card-info-item">
+              <div class="card-info-label">Hotline & Inquiries</div>
+              <div class="card-info-text">
+                <a href="tel:+918180818080">+91 81808 18080</a> &nbsp;|&nbsp; 
+                <a href="tel:+917507325725">+91 75073 25725</a>
+              </div>
+            </div>
+
+            <div class="card-info-item">
+              <div class="card-info-label">Hours</div>
+              <div class="card-info-text">
+                Monday – Sunday : 10:00 AM — 09:30 PM (Open 7 Days)
+              </div>
+            </div>
+
+            <div class="card-info-item">
+              <div class="card-info-label">Specialization</div>
+              <div class="card-info-text">
+                Authentic Handloom Paithani, Pure Kanjivaram, Banarasi Zari Silk, Handcrafted Lehengas & Saree Draping Lounge.
+              </div>
+            </div>
+          </div>
+
+          <!-- Showroom 2 -->
+          <div class="visit-luminous-card">
+            <div class="card-header-flex">
+              <div>
+                <h3>Kalpana Family Mall</h3>
+                <span class="subtitle-neon">Grand Flagship Store</span>
+              </div>
+              <span class="neon-status-badge active">Coming Soon • 11 Oct 2026</span>
+            </div>
+
+            <div class="card-info-item">
+              <div class="card-info-label">Location</div>
+              <div class="card-info-text">
+                Plot No G-1, Opp. Health & Harmony, Cannought Place, CIDCO, Chh. Sambhajinagar - 431003
+              </div>
+            </div>
+
+            <div class="card-info-item">
+              <div class="card-info-label">Hotline & Inquiries</div>
+              <div class="card-info-text">
+                <a href="tel:+917507325725">+91 75073 25725</a> &nbsp;|&nbsp; 
+                <a href="tel:+918180818080">+91 81808 18080</a>
+              </div>
+            </div>
+
+            <div class="card-info-item">
+              <div class="card-info-label">Official Instagram</div>
+              <div class="card-info-text">
+                <a href="https://www.instagram.com/kalpanafamilymall?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer">📸 @kalpanafamilymall →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    (function() {
+      function initDualVideo() {
+        const isMobile = window.innerWidth <= 768;
+        const videoSrc = isMobile ? 'bg_video_mobile.mp4' : 'bg_video.mp4';
+        const v1 = document.getElementById('hero-bg-video-1');
+        const v2 = document.getElementById('hero-bg-video-2');
+        if (!v1 || !v2) return;
+
+        v1.src = videoSrc;
+        v2.src = videoSrc;
+        v1.load();
+        v2.load();
+
+        let activeVideo = v1;
+        let nextVideo = v2;
+        let isFading = false;
+
+        function tryPlay() {
+          v1.play().catch(function() {
+            const unlock = function() {
+              v1.play();
+              document.removeEventListener('touchstart', unlock);
+              document.removeEventListener('click', unlock);
+              document.removeEventListener('scroll', unlock);
+            };
+            document.addEventListener('touchstart', unlock, { once: true });
+            document.addEventListener('click', unlock, { once: true });
+            document.addEventListener('scroll', unlock, { once: true });
+          });
+        }
+        tryPlay();
+
+        function checkCrossfade() {
+          if (activeVideo.duration && activeVideo.currentTime > activeVideo.duration - 1.2) {
+            if (!isFading) {
+              isFading = true;
+              nextVideo.currentTime = 0;
+              nextVideo.play().then(function() {
+                nextVideo.style.opacity = '1';
+                activeVideo.style.opacity = '0';
+                setTimeout(function() {
+                  const temp = activeVideo;
+                  activeVideo = nextVideo;
+                  nextVideo = temp;
+                  isFading = false;
+                }, 850);
+              }).catch(function() {
+                isFading = false;
+              });
+            }
+          }
+          requestAnimationFrame(checkCrossfade);
+        }
+        requestAnimationFrame(checkCrossfade);
+      }
+      document.addEventListener('DOMContentLoaded', initDualVideo);
+      window.addEventListener('load', initDualVideo);
+    })();
+  </script>
+
+  <script>
+
+    // 1. COUNTDOWN TIMER INTERVAL
+    const targetDate = new Date("October 11, 2026 00:00:00").getTime();
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const diff = targetDate - now;
+
+      if (diff <= 0) {
+        document.getElementById("countdown-days").innerText = "00";
+        document.getElementById("countdown-hours").innerText = "00";
+        document.getElementById("countdown-minutes").innerText = "00";
+        document.getElementById("countdown-seconds").innerText = "00";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      const dStr = days < 10 ? '0' + days : days;
+      const hStr = hours < 10 ? '0' + hours : hours;
+      const mStr = minutes < 10 ? '0' + minutes : minutes;
+      const sStr = seconds < 10 ? '0' + seconds : seconds;
+
+      if (document.getElementById("countdown-days")) document.getElementById("countdown-days").innerText = dStr;
+      if (document.getElementById("countdown-hours")) document.getElementById("countdown-hours").innerText = hStr;
+      if (document.getElementById("countdown-minutes")) document.getElementById("countdown-minutes").innerText = mStr;
+      if (document.getElementById("countdown-seconds")) document.getElementById("countdown-seconds").innerText = sStr;
+
+      if (document.getElementById("nav-days")) document.getElementById("nav-days").innerText = dStr;
+      if (document.getElementById("nav-hours")) document.getElementById("nav-hours").innerText = hStr;
+      if (document.getElementById("nav-minutes")) document.getElementById("nav-minutes").innerText = mStr;
+      if (document.getElementById("nav-seconds")) document.getElementById("nav-seconds").innerText = sStr;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // 3. FULLSCREEN SAREE VEIL 3D CLOTH SIMULATION
+    const veilCurtain = document.getElementById('saree-veil-curtain');
+    const clothCanvas = document.getElementById('saree-cloth-canvas');
+    const promptPill = document.getElementById('saree-unveil-prompt');
+    const topUtilityBar = document.querySelector('.top-utility-bar');
+    const topNavbar = document.querySelector('.main-navbar');
+
+    let clothScene, clothCamera, clothRenderer, clothMesh, clothGeometry, clothOriginalPositions;
+    let clothVisibleWidth = 10, clothVisibleHeight = 10;
+    let targetClothPullProgress = 0, smoothedClothPullProgress = 0;
+    let clothIdleTime = 0;
+
+    const isMobileDev = (window.innerWidth <= 768);
+
+    try {
+    if (clothCanvas) {
+      clothRenderer = new THREE.WebGLRenderer({ canvas: clothCanvas, antialias: true, alpha: true });
+      clothRenderer.setSize(window.innerWidth, window.innerHeight);
+      clothRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 3.0));
+
+      clothScene = new THREE.Scene();
+      const fov = 45;
+      clothCamera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, 0.1, 1000);
+      clothCamera.position.set(0, 0, 25);
+      clothCamera.lookAt(0, 0, 0);
+
+      const vFOV = (fov * Math.PI) / 180;
+      clothVisibleHeight = 2 * Math.tan(vFOV / 2) * 25;
+      clothVisibleWidth = clothVisibleHeight * (window.innerWidth / window.innerHeight);
+      const segX = isMobileDev ? 24 : 38, segY = isMobileDev ? 24 : 38;
+      clothGeometry = new THREE.PlaneGeometry(clothVisibleWidth * 2.4, clothVisibleHeight * 2.4, segX, segY);
+
+      const posAttr = clothGeometry.attributes.position;
+      clothOriginalPositions = new Float32Array(posAttr.array.length);
+      clothOriginalPositions.set(posAttr.array);
+
+      function adjustSareeTextureAspect(tex) {
+        if (!tex || !tex.image || !tex.image.width || !tex.image.height) return;
+        tex.matrixAutoUpdate = false;
+        if (isMobileDev) {
+          tex.matrix.identity();
+        } else {
+          const imgAspect = tex.image.width / tex.image.height;
+          const planeAspect = window.innerWidth / window.innerHeight;
+          let scaleX = 1, scaleY = 1;
+          if (planeAspect > imgAspect) {
+            scaleY = planeAspect / imgAspect;
+          } else {
+            scaleX = imgAspect / planeAspect;
+          }
+          tex.matrix.setUvTransform(
+            (1 - scaleX) / 2,
+            (1 - scaleY) / 2,
+            scaleX,
+            scaleY,
+            0,
+            0.5, 0.5
+          );
+        }
+        tex.needsUpdate = true;
+      }
+
+      const coverSrc = isMobileDev ? 'saree_cover_mobile.jpg' : 'saree_cover.jpg';
+      const texLoader = new THREE.TextureLoader();
+      const sareeTexture = texLoader.load(coverSrc, (tex) => {
+        adjustSareeTextureAspect(tex);
+      });
+      sareeTexture.generateMipmaps = true;
+      sareeTexture.wrapS = THREE.ClampToEdgeWrapping;
+      sareeTexture.wrapT = THREE.ClampToEdgeWrapping;
+      sareeTexture.minFilter = THREE.LinearMipmapLinearFilter;
+      sareeTexture.magFilter = THREE.LinearFilter;
+      if (clothRenderer && clothRenderer.capabilities) {
+        sareeTexture.anisotropy = clothRenderer.capabilities.getMaxAnisotropy();
+      }
+
+      const clothMaterial = new THREE.MeshBasicMaterial({
+        map: sareeTexture,
+        side: THREE.DoubleSide
+      });
+
+      clothMesh = new THREE.Mesh(clothGeometry, clothMaterial);
+      clothScene.add(clothMesh);
+
+      const clothAmbient = new THREE.AmbientLight(0xffffff, 0.9);
+      clothScene.add(clothAmbient);
+    }
+    } catch(e) { console.warn('Cloth init error:', e); }
+
+    function updateClothMesh(T) {
+      if (!clothGeometry || !clothOriginalPositions) return;
+
+      const pos = clothGeometry.attributes.position.array;
+      const orig = clothOriginalPositions;
+      const count = pos.length / 3;
+
+      clothIdleTime += 0.016;
+
+      const sin = Math.sin;
+      const cos = Math.cos;
+      const PI = Math.PI;
+
+      const easeT = T * T * (3.0 - 2.0 * T);
+      const sinEasePI = sin(easeT * PI);
+
+      // Realistic 3D mesh movement & tilt as saree is pulled
+      if (clothMesh) {
+        clothMesh.rotation.y = -easeT * 0.28;
+        clothMesh.rotation.z = easeT * 0.12;
+        clothMesh.position.x = easeT * (clothVisibleWidth * 1.55);
+        clothMesh.position.y = easeT * (clothVisibleHeight * 0.40);
+      }
+
+      for (let i = 0; i < count; i++) {
+        const i3 = i * 3;
+        const x0 = orig[i3];
+        const y0 = orig[i3 + 1];
+        const z0 = orig[i3 + 2];
+
+        const u = clothGeometry.attributes.uv.getX(i);
+        const v = clothGeometry.attributes.uv.getY(i);
+
+        const dx = 1.0 - u;
+        const dy = 1.0 - v;
+        const distFromGrab = Math.sqrt(dx * dx + dy * dy) * 0.7071;
+
+        // Subtle organic silk breeze while idling
+        const idleWave = (sin(u * 3.5 + clothIdleTime * 0.9) * 0.35 + 
+                          cos(v * 3.0 + clothIdleTime * 0.8) * 0.35) * (1.0 - easeT);
+
+        // Heavy silk gravity sag & diagonal drape gathering
+        const sag = sin(distFromGrab * PI) * sinEasePI;
+        const sagY = -sag * (clothVisibleHeight * 0.35);
+        const gatherX = -sag * (clothVisibleWidth * 0.22);
+
+        // Silk drapery folds & 3D lift towards camera
+        const wavePhase = (u + v) * 5.0 - easeT * 5.5;
+        const draperyFold = sin(wavePhase) * (3.2 * sinEasePI * (1.0 - distFromGrab * 0.20));
+        const liftZ = sinEasePI * 8.5 * (1.0 - distFromGrab * 0.25);
+
+        pos[i3]     = x0 + gatherX;
+        pos[i3 + 1] = y0 + sagY;
+        pos[i3 + 2] = z0 + idleWave + liftZ + draperyFold;
+      }
+
+      clothGeometry.attributes.position.needsUpdate = true;
+    }
+
+    // 4. GSAP SCROLLTRIGGER WITH 60% AUTO REVEAL
+    gsap.registerPlugin(ScrollTrigger);
+
+    let hasAutoRevealed = false;
+
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
+    const isReturningFromDept = sessionStorage.getItem('return_from_dept') === 'true';
+    sessionStorage.removeItem('return_from_dept');
+
+    if (isReturningFromDept) {
+      hasAutoRevealed = true;
+      targetClothPullProgress = 1.0;
+      smoothedClothPullProgress = 1.0;
+      if (veilCurtain) {
+        veilCurtain.style.display = 'none';
+        veilCurtain.style.opacity = '0';
+        veilCurtain.style.pointerEvents = 'none';
+      }
+    } else {
+      hasAutoRevealed = false;
+      targetClothPullProgress = 0;
+      smoothedClothPullProgress = 0;
+      if (veilCurtain) {
+        veilCurtain.style.display = 'block';
+        veilCurtain.style.opacity = '1';
+        veilCurtain.style.pointerEvents = 'auto';
+      }
+      window.scrollTo(0, 0);
+    }
+    if (!isReturningFromDept) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Final dismiss: called after cloth has gracefully slid completely off screen
+    const finishSareeReveal = () => {
+      if (hasAutoRevealed) return;
+      hasAutoRevealed = true;
+      targetClothPullProgress = 1.0;
+      document.body.style.overflow = '';
+      
+      setTimeout(() => {
+        if (veilCurtain) {
+          veilCurtain.style.transition = 'opacity 0.45s ease';
+          veilCurtain.style.opacity = '0';
+          veilCurtain.style.pointerEvents = 'none';
+          setTimeout(() => {
+            veilCurtain.style.display = 'none';
+            if (clothRenderer) {
+              try { clothRenderer.dispose(); } catch(e){}
+            }
+          }, 450);
+        }
+      }, 350);
+    };
+
+    // --- SCROLL-DRIVEN REALISTIC CLOTH PULL ---
+    const PULL_DISTANCE = isMobileDev ? 320 : 480;
+    let touchStartY = 0;
+
+    if (veilCurtain && !isReturningFromDept) {
+      veilCurtain.addEventListener('touchstart', function(e) {
+        if (hasAutoRevealed) return;
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+
+      veilCurtain.addEventListener('touchmove', function(e) {
+        if (hasAutoRevealed) return;
+        const currentY = e.touches[0].clientY;
+        const deltaY = touchStartY - currentY;
+        if (deltaY > 0) {
+          targetClothPullProgress = Math.min(1.0, deltaY / PULL_DISTANCE);
+          if (targetClothPullProgress >= 0.95) {
+            finishSareeReveal();
+          }
+        }
+      }, { passive: true });
+
+      veilCurtain.addEventListener('touchend', function() {
+        if (hasAutoRevealed) return;
+        if (targetClothPullProgress > 0.35) {
+          targetClothPullProgress = 1.0;
+          finishSareeReveal();
+        } else {
+          targetClothPullProgress = 0;
+        }
+      }, { passive: true });
+
+      let cumulativeWheel = 0;
+      veilCurtain.addEventListener('wheel', function(e) {
+        if (hasAutoRevealed) return;
+        e.preventDefault();
+        if (e.deltaY > 0) {
+          cumulativeWheel += Math.abs(e.deltaY) * 0.95;
+          targetClothPullProgress = Math.min(1.0, cumulativeWheel / PULL_DISTANCE);
+          if (targetClothPullProgress >= 0.90) {
+            finishSareeReveal();
+          }
+        }
+      }, { passive: false });
+
+      veilCurtain.addEventListener('click', function() {
+        if (hasAutoRevealed) return;
+        targetClothPullProgress = 1.0;
+        finishSareeReveal();
+      });
+    }
+
+    if (!isReturningFromDept) {
+      setTimeout(function() {
+        if (!hasAutoRevealed) {
+          targetClothPullProgress = 1.0;
+          finishSareeReveal();
+        }
+      }, isMobileDev ? 6000 : 10000);
+    }
+
+    // 5. ANIMATION RENDER LOOP (Weighted Realistic Silk Lerp)
+    function animate(time) {
+      requestAnimationFrame(animate);
+
+      if (!hasAutoRevealed || smoothedClothPullProgress < 0.999) {
+        smoothedClothPullProgress += (targetClothPullProgress - smoothedClothPullProgress) * 0.18;
+        updateClothMesh(smoothedClothPullProgress);
+
+        if (clothRenderer && clothScene && clothCamera) {
+          clothRenderer.render(clothScene, clothCamera);
+        }
+
+        if (promptPill && smoothedClothPullProgress > 0.05) {
+          promptPill.style.opacity = Math.max(0, (1.0 - smoothedClothPullProgress * 2.5)).toString();
+        }
+      }
+    }
+    animate(0);
+
+    window.addEventListener('resize', () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      if (clothCamera && clothRenderer) {
+        clothCamera.aspect = width / height;
+        clothCamera.updateProjectionMatrix();
+        clothRenderer.setSize(width, height);
+
+        const vFOV = (45 * Math.PI) / 180;
+        clothVisibleHeight = 2 * Math.tan(vFOV / 2) * 25;
+        clothVisibleWidth = clothVisibleHeight * (width / height);
+      }
+    });
+
+    // 6. DEPARTMENT SHOWCASE INTERACTIVE PREVIEW
+    const deptData = {
+      sarees: {
+        badge: "Bridal Pavilion",
+        title: "Bridal & Paithani Sarees",
+        desc: "Authentic Handloom Paithani, Kanjivaram Silk, Banarasi Zari & Designer Wedding Sarees.",
+        img: "cat_sarees.jpg"
+      },
+      mens: {
+        badge: "Groom & Royal Ensembles",
+        title: "Men's Luxury Wear",
+        desc: "Designer Sherwanis, Indo-Western suits, Kurta sets, and formal wedding attire.",
+        img: "cat_mens.jpg"
+      },
+      womens: {
+        badge: "Couture Collection",
+        title: "Women's Designer Wear",
+        desc: "Exquisite handcrafted Lehengas, Anarkalis, Gowns, and contemporary ethnic ensembles.",
+        img: "cat_womens.jpg"
+      },
+      kids: {
+        badge: "Junior Luxury",
+        title: "Kids Festive & Formal",
+        desc: "Charming ethnic collections, sherwanis, lehengas, and celebration wear for children.",
+        img: "cat_kids.jpg"
+      },
+      handloom: {
+        badge: "Heritage Weaves",
+        title: "Pure Handloom Silks",
+        desc: "Direct-from-weaver authentic weaves, Gadwal, Tussar, Chanderi, and Organza silks.",
+        img: "cat_handloom.jpg"
+      },
+      suiting: {
+        badge: "Tailoring Atelier",
+        title: "Shirting & Suiting",
+        desc: "Premium Raymond, Reid & Taylor fabrics, Italian suitings, and bespoke tailoring.",
+        img: "cat_shirting.jpg"
+      },
+      accessories: {
+        badge: "Royal Accents",
+        title: "Bridal Accessories",
+        desc: "Embroidered dupattas, temple jewellery, turbans, safas, and luxury footwear.",
+        img: "cat_accessories.jpg"
+      },
+      ethnic: {
+        badge: "Celebration Wear",
+        title: "Festive & Ethnic Collection",
+        desc: "Curated festive wear for puja, sangeet, reception, and family celebrations.",
+        img: "cat_ethnic.jpg"
+      }
+    };
+
+    const deptPills = document.querySelectorAll('.horizontal-dept-pill');
+    const previewImg = document.getElementById('dept-preview-img');
+    const previewBadge = document.getElementById('dept-preview-badge');
+    const previewTitle = document.getElementById('dept-preview-title');
+    const previewDesc = document.getElementById('dept-preview-desc');
+
+    function selectDept(deptKey) {
+      const data = deptData[deptKey];
+      if (!data) return;
+
+      deptPills.forEach(pill => {
+        if (pill.getAttribute('data-dept') === deptKey) {
+          pill.classList.add('active');
+        } else {
+          pill.classList.remove('active');
+        }
+      });
+
+      if (previewImg) previewImg.src = data.img;
+      if (previewBadge) previewBadge.innerText = data.badge;
+      if (previewTitle) previewTitle.innerText = data.title;
+      if (previewDesc) previewDesc.innerText = data.desc;
+    }
+
+    deptPills.forEach(pill => {
+      const deptKey = pill.getAttribute('data-dept');
+      pill.addEventListener('mouseenter', () => selectDept(deptKey));
+      pill.addEventListener('click', (e) => {
+        e.preventDefault();
+        selectDept(deptKey);
+      });
+      pill.addEventListener('touchstart', () => {
+        selectDept(deptKey);
+      }, { passive: true });
+    });
+  </script>
+</body>
+</html>
